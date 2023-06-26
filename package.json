@@ -1,6 +1,6 @@
 {
   "name": "@weebu/react-hooks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Weebu React Hooks",
   "main": "lib/index",
   "scripts": {
