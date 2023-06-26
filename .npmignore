@@ -1,0 +1,12 @@
+npm-debug.log
+*.env*
+*.*
+jest.config.js
+tsconfig*.json
+.coverage/
+.vscode/
+.storybook/
+.github/
+docs/
+docs-build/
+stories/
