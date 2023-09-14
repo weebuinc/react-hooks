@@ -1,5 +1,9 @@
 # Weebu React Hooks
 
+![Build Status](https://github.com/weebuinc/react-hooks/actions/workflows/ci.yml/badge.svg)
+![NPM Version](http://img.shields.io/npm/v/@weebuinc/react-hooks.svg?style=flat)
+![NPM Downloads](https://img.shields.io/npm/dm/@weebuinc/react-hooks.svg?style=flat)
+
 This is a collection of very useful hooks provided by our company `Weebu Inc.`.
 
 ## Getting Started
