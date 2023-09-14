@@ -1,9 +1,9 @@
 .coverage/
 .vscode/
-docs/
 docs-build/
 lib/
 node_modules/
+reports/
 npm-debug.log
 
 *.env*

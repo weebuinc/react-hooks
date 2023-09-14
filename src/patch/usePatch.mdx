@@ -1,0 +1,63 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title='documentation/patch/usePatch' />
+
+# usePatch
+
+The patch hook allows an object state to have some (or all) of its fields to be changed by the dispatch setter.
+
+## Signature
+
+### Definitions
+
+```typescript
+import { Dispatch } from 'react';
+
+export function usePatch<T>(initialState: Partial<T>): [T, Dispatch<Partial<T>>];
+```
+
+### Parameters
+
+<table style={{ textAlign: 'left' }}>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th style={{ width: '100%' }}>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>initialState</td>
+      <td>`object`</td>
+      <td>The initial state that will be changed by the returned dispatch.</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+## Examples
+
+```tsx
+import { usePatch } from '@weebu/react-hooks';
+
+export function MyComponent() {
+  // allows for the firstName to be changed without affecting the lastName and vice versa
+  const [patch, setPatch] = usePatch({ firstName: '', lastName: '' });
+  return (
+    <>
+      <input
+        name='firstName'
+        value={patch.firstName}
+        onClick={(ev) => setPatch({ firstName: ev.target.value })}
+      />
+      <input
+        name='lastName'
+        value={patch.lastName}
+        onClick={(ev) => setPatch({ lastName: ev.target.value })}
+      />
+    </>
+  );
+}
+```

@@ -1,0 +1,93 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title='documentation/debounce/useDebounce' />
+
+# useDebounce
+
+The debounce hook takes in a callback function and returns a dispatch function that debounces the callback.
+
+## Signature
+
+### Definitions
+
+```typescript
+type DebounceDispatch<C extends DebounceCallback> = (...params: Parameters<C>) => Awaited<void>;
+export function useDebounce<F extends (...args) => any>(cb: F): DebounceDispatch<F>;
+export function useDebounce<F extends (...args) => any>(cb: F, timeout: number): DebounceDispatch<F>;
+export function useDebounce<F extends (...args) => any>(cb: F, deps: Array<any>): DebounceDispatch<F>;
+export function useDebounce<F extends (...args) => any>(cb: F, timeout: number, deps: Array<any>): DebounceDispatch<F>;
+export function useDebounce<F extends (...args) => any>(cb: F, deps: Array<any>, timeout: number): DebounceDispatch<F>;
+```
+
+### Parameters
+
+<table style={{ textAlign: 'left' }}>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th style={{ width: '100%' }}>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cb</td>
+      <td>`function`</td>
+      <td>The callback function that will be debounced by the returned dispatch.</td>
+    </tr>
+    <tr>
+      <td>timeout</td>
+      <td>`number`</td>
+      <td>
+        The period (in milliseconds) to wait for between the time the dispatch is called and the callback is called. (**default:** `300`)
+      </td>
+    </tr>
+    <tr>
+      <td>deps</td>
+      <td>`Array<any>`</td>
+      <td>
+        The dependencies that are watched to keep the callback up to date.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+## Examples
+
+### Minimize REST Calls
+
+```tsx
+import axios from 'axios';
+import { useState } from 'react';
+import { useDebounce } from '@weebuinc/react-hooks';
+
+export function SearchInput() {
+  const [value, setValue] = useState('');
+  const [names, setNames] = useState(new Array<string>());
+
+  const search = useDebounce(async (name: string) => {
+    // this logic will be called 300ms after the last dispatch of the search function
+    const { data } = await axios.get('http://api.example.com/search', { params: { name } });
+    setNames([...data]);
+  });
+
+  return (
+    <div>
+      <input
+        value={value}
+        onChange={(ev) => {
+          setValue(ev.target.value);
+          search(ev.target.value);
+        }}
+      />
+      <ul>
+        {names.map((name) => (
+          <li key={name}>{name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```

@@ -1,0 +1,74 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title='documentation/closure/useClosure' />
+
+# useClosure
+
+The closure hook returns a reference that updates, automatically, by the dependencies passed to it.
+
+## Signature
+
+### Definitions
+
+```typescript
+import { MutableRefObject } from 'react';
+
+type ClosureCallback<T> = () => T;
+export function useClosure<T>(cb: ClosureCallback<T>, deps: Array<any>): MutableRefObject<T>;
+```
+
+### Parameters
+
+<table style={{ textAlign: 'left' }}>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th style={{ width: '100%' }}>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cb</td>
+      <td>`function`</td>
+      <td>The callback function that produces the content of the reference.</td>
+    </tr>
+    <tr>
+      <td>deps</td>
+      <td>`Array<any>`</td>
+      <td>
+        The dependencies that are watched to keep the reference up to date.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+## Examples
+
+### Avoid Rerenders from Prop Changes
+
+```typescript
+import { useCallback, useState } from 'react';
+import { useClosure } from '@weebuinc/react-hooks';
+
+export function Input({ maxLength }) {
+  const [value, setValue] = useState('');
+  const maxLengthRef = useClosure(() => maxLength, [maxLength]);
+
+  // a function that will not cause a re-render when the maxLength property changes
+  const handleChange = useCallback((ev) => {
+    if (ev.target.value.length <= maxLengthRef.current) {
+      setValue(ev.target.value);
+    }
+  }, []);
+
+  return (
+    <input
+      value={value}
+      onChange={handleChange}
+    />
+  );
+}
+```
